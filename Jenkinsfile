@@ -2,22 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Cloning Git Repository') {
+        stage('SCM Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/soldetres/jk-public-gh.git'
+                git branch: 'main', credentialsId: 'jk-gh-tk', url: 'https://github.com/soldetres/jk-private-gh.git'
             }
         }
-        stage('Building Image') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker build -t webapp:${BUILD_NUMBER} .'
-            }
-        }
-        stage('Deploying Application') {
-            steps {
-                sh '''
-                # docker stop webapp_ctr
-                docker run --rm -d -p 3000:3000 --name webapp_ctr webapp:${BUILD_NUMBER}
-                '''
+                sh 'docker build -t soldetres/webapp:$BUILD_NUMBER .'
             }
         }
     }
