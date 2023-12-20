@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t soldetres/webapp:$BUILD_NUMBER .'
+                sh 'docker build -t webapp:$BUILD_NUMBER .'
             }
         }
     }
